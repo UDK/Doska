@@ -24,10 +24,11 @@ namespace WindowsFormsApp2
 
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            //Зададим размер доска исходя из размеров бокса
             int X = pictureBox1.Width/30;
             int Y = pictureBox1.Height/30-1;
             Graphics graf = e.Graphics;
-            НарисоватьДоску qq = new НарисоватьДоску();
+            Работа_Доска qq = new Работа_Доска();
             quad [,] Quad = qq.СделатьДоску(X,Y);
             for(int i =0;i<X;i++)
             {
@@ -37,6 +38,8 @@ namespace WindowsFormsApp2
                     //this.Update();
                 }
             }
+            microbe Microbe = qq.Рандомить_микроба(Quad);
+            graf.FillEllipse(Microbe.pen.Brush, Microbe.rectangle);
             //throw new NotImplementedException();
         }
     }
