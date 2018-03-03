@@ -24,19 +24,19 @@ namespace WindowsFormsApp2
 
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            const int X = 30;
-            const int Y = 10;
+            int X = pictureBox1.Width/30;
+            int Y = pictureBox1.Height/30-1;
             Graphics graf = e.Graphics;
             НарисоватьДоску qq = new НарисоватьДоску();
-            quad [,] Quad = qq.СделатьДоску(100,100);
+            quad [,] Quad = qq.СделатьДоску(X,Y);
             for(int i =0;i<X;i++)
             {
                 for(int j= 0;j<Y;j++)
                 {
-
+                    graf.DrawRectangle(Quad[i,j].pen, Quad[i,j].rectangle);
+                    //this.Update();
                 }
             }
-            graf.DrawRectangle(kryg.pen, kryg.rectangle);
             //throw new NotImplementedException();
         }
     }

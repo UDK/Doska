@@ -46,11 +46,13 @@ namespace WindowsFormsApp2
                     circle.pen = pen;
                     //Размеры Квадрата
                     circle.rectangle.Width = 10;
+                    circle.rectangle.X = i * 30;
+                    circle.rectangle.Y = j * 30;
                     circle.size.Width = 30;
                     circle.size.Height = 30;
                     circle.rectangle.Size = circle.size;
                     //где находится круг
-                    circle.Point(i*30, j*30);
+                    //circle.Point(i*30, j*30);
                     Quad[i, j] = circle;
                 }
             }
