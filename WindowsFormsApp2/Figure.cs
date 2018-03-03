@@ -31,25 +31,30 @@ namespace WindowsFormsApp2
     }
     class НарисоватьДоску
     {
-        public quad СделатьДоску(int X, int Y)
+        public quad[,] СделатьДоску(int X, int Y)
         {
-
-
-
-            quad circle = new quad();
-            //Цвет
-            Pen pen = new Pen(Color.Black);
-            //Ширина пера
-            pen.Width = 2.16f;
-            circle.pen = pen;
-            //Размеры круга
-            circle.rectangle.Width = 10;
-            circle.size.Width = 30;
-            circle.size.Height = 30;
-            circle.rectangle.Size = circle.size;
-            //где находится круг
-            circle.Point(X, Y);
-            return circle;
+            quad[,] Quad = new quad[X, Y];
+            for(int i =0;i<X;i++)
+            {
+                for(int j=0;j<Y;j++)
+                {
+                    quad circle = new quad();
+                    //Цвет
+                    Pen pen = new Pen(Color.Black);
+                    //Ширина пера
+                    pen.Width = 2.16f;
+                    circle.pen = pen;
+                    //Размеры Квадрата
+                    circle.rectangle.Width = 10;
+                    circle.size.Width = 30;
+                    circle.size.Height = 30;
+                    circle.rectangle.Size = circle.size;
+                    //где находится круг
+                    circle.Point(i*30, j*30);
+                    Quad[i, j] = circle;
+                }
+            }
+            return Quad;
         }
     }
 }
