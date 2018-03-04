@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp2
 {
-    class figura 
+    class figura
     {
         private Point point;
         public Point POint
@@ -24,7 +24,7 @@ namespace WindowsFormsApp2
             point.Y = y;
         }
     }
-    class quad:figura
+    class quad : figura
     {
         //Флаг присутствия 0-никого,1-микроб
         public Byte flag = 0;
@@ -32,7 +32,7 @@ namespace WindowsFormsApp2
         public Size size;
 
     }
-    class microbe:figura
+    class microbe : figura
     {
         public Rectangle rectangle;
         public Size size;
@@ -64,9 +64,9 @@ namespace WindowsFormsApp2
         public quad[,] СделатьДоску(int X, int Y)
         {
             quad[,] Quad = new quad[X, Y];
-            for(int i =0;i<X;i++)
+            for (int i = 0; i < X; i++)
             {
-                for(int j=0;j<Y;j++)
+                for (int j = 0; j < Y; j++)
                 {
                     quad circle = new quad();
                     //Цвет
