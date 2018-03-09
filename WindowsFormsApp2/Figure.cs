@@ -18,6 +18,7 @@ namespace WindowsFormsApp2
             }
         }
         public Pen pen;
+        public Rectangle rectangle;
         public void Point(int x, int y)
         {
             point.X = x;
@@ -28,13 +29,11 @@ namespace WindowsFormsApp2
     {
         //Флаг присутствия 0-никого,1-микроб
         public Byte flag = 0;
-        public Rectangle rectangle;
         public Size size;
 
     }
     class microbe : figura
     {
-        public Rectangle rectangle;
         public Size size;
     }
     class Работа_Доска
@@ -91,10 +90,28 @@ namespace WindowsFormsApp2
             return Quad;
         }
 
-        public void Move(microbe mic)
+        public void MoveRight(figura mic)
         {
             Doskaa.doskaa[mic.rectangle.X/30, mic.rectangle.Y/30].flag = 0;
             mic.rectangle.X += 30;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+        }
+        public void MoveLeft(figura mic)
+        {
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 0;
+            mic.rectangle.X -= 30;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+        }
+        public void MoveUp(figura mic)
+        {
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 0;
+            mic.rectangle.Y += 30;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+        }
+        public void MoveDown(figura mic)
+        {
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 0;
+            mic.rectangle.Y -= 30;
             Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
         }
     }
