@@ -51,6 +51,7 @@ namespace WindowsFormsApp2
             //Где находится объект
             int rand_x = rnd.Next(0, doska.GetLength(0));
             int rand_y = rnd.Next(0, doska.GetLength(1));
+            //30- это чтобы он попадал в клетку
             microb.rectangle.X = rand_x * 30;
             microb.rectangle.Y = rand_y * 30;
             //Размер объекта
@@ -89,5 +90,18 @@ namespace WindowsFormsApp2
             }
             return Quad;
         }
+
+        public void Move(microbe mic)
+        {
+            Doskaa.doskaa[mic.rectangle.X/30, mic.rectangle.Y/30].flag = 0;
+            mic.rectangle.X += 30;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+        }
+    }
+    static class Doskaa
+    {
+        //Нужна статическая доска,чтобы постоянно к ней обращаться
+        static public quad[,] doskaa;
+        static public microbe[] microbe;
     }
 }

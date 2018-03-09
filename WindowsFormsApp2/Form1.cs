@@ -16,30 +16,49 @@ namespace WindowsFormsApp2
         Pen peen;
         int a, b;
         SolidBrush white, black;
+        Работа_Доска qq = new Работа_Доска();
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.Paint += PictureBox1_Paint;
+           // pictureBox1.Paint += PictureBox1_Paint;
+            button1.Click += Button1_Click;
+            button2.Click += Button2_Click;
+            ////////////////
+            //Зададим сколько будет микробов
+            Doskaa.microbe = new microbe[10];
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            qq.Move(Doskaa.microbe[0]);
+            graf.FillEllipse(Doskaa.microbe[0].pen.Brush, Doskaa.microbe[0].rectangle);
+            //throw new NotImplementedException();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            //Зададим размер доска исходя из размеров бокса
+            int X = pictureBox1.Width / 30;
+            int Y = pictureBox1.Height / 30 - 1;
+            //Зададим, управление pictreBOx
+            graf = pictureBox1.CreateGraphics();
+            Doskaa.doskaa = qq.СделатьДоску(X, Y);
+            for (int i = 0; i < X; i++)
+            {
+                for (int j = 0; j < Y; j++)
+                {
+                    graf.DrawRectangle(Doskaa.doskaa[i, j].pen, Doskaa.doskaa[i, j].rectangle);
+                    //this.Update();
+                }
+            }
+            Doskaa.microbe[0] = qq.Рандомить_микроба(Doskaa.doskaa);
+            graf.FillEllipse(Doskaa.microbe[0].pen.Brush, Doskaa.microbe[0].rectangle);
+            //throw new NotImplementedException();
         }
 
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            //Зададим размер доска исходя из размеров бокса
-            int X = pictureBox1.Width/30;
-            int Y = pictureBox1.Height/30-1;
-            Graphics graf = e.Graphics;
-            Работа_Доска qq = new Работа_Доска();
-            quad [,] Quad = qq.СделатьДоску(X,Y);
-            for(int i =0;i<X;i++)
-            {
-                for(int j= 0;j<Y;j++)
-                {
-                    graf.DrawRectangle(Quad[i,j].pen, Quad[i,j].rectangle);
-                    //this.Update();
-                }
-            }
-            microbe Microbe = qq.Рандомить_микроба(Quad);
-            graf.FillEllipse(Microbe.pen.Brush, Microbe.rectangle);
+           
             //throw new NotImplementedException();
         }
     }
