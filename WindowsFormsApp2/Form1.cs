@@ -30,6 +30,7 @@ namespace WindowsFormsApp2
 
         private void Button2_Click(object sender, EventArgs e)
         {
+            graf.FillEllipse(Pens.White.Brush, Doskaa.microbe[0].rectangle);
             qq.Move(Doskaa.microbe[0]);
             graf.FillEllipse(Doskaa.microbe[0].pen.Brush, Doskaa.microbe[0].rectangle);
             //throw new NotImplementedException();

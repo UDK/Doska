@@ -52,11 +52,11 @@ namespace WindowsFormsApp2
             int rand_x = rnd.Next(0, doska.GetLength(0));
             int rand_y = rnd.Next(0, doska.GetLength(1));
             //30- это чтобы он попадал в клетку
-            microb.rectangle.X = rand_x * 30;
-            microb.rectangle.Y = rand_y * 30;
+            microb.rectangle.X = rand_x * 30+2;
+            microb.rectangle.Y = rand_y * 30+2;
             //Размер объекта
-            microb.size.Width = 30;
-            microb.size.Height = 30;
+            microb.size.Width = 25;
+            microb.size.Height = 25;
             microb.rectangle.Size = microb.size;
             doska[rand_x, rand_y].flag = 1;
             return microb;
