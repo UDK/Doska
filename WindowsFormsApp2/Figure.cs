@@ -89,30 +89,52 @@ namespace WindowsFormsApp2
             }
             return Quad;
         }
-
+        ///////////////////////////
+        //Передвижение любой фигуры(figura), надо запилить каждой фигуре свой рисунок в отдельеную переменную, и сделать методы этого рисования, чтобы не делать это в форм.кс
         public void MoveRight(figura mic)
         {
+            byte buff = Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag;
             Doskaa.doskaa[mic.rectangle.X/30, mic.rectangle.Y/30].flag = 0;
             mic.rectangle.X += 30;
-            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = buff;
         }
         public void MoveLeft(figura mic)
         {
+            byte buff = Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag;
             Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 0;
             mic.rectangle.X -= 30;
-            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = buff;
         }
         public void MoveUp(figura mic)
         {
+            byte buff = Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag;
             Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 0;
             mic.rectangle.Y += 30;
-            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = buff;
         }
         public void MoveDown(figura mic)
         {
+            byte buff = Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag;
             Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 0;
             mic.rectangle.Y -= 30;
-            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = 1;
+            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = buff;
+        }
+        ///////////////////////////
+        public byte LearnLocationRight(figura mic)
+        {
+            return Doskaa.doskaa[(mic.rectangle.X / 30) + 1, mic.rectangle.Y / 30].flag;
+        }
+        public byte LearnLocationLeft(figura mic)
+        {
+            return Doskaa.doskaa[(mic.rectangle.X / 30)-1, mic.rectangle.Y / 30].flag;
+        }
+        public byte LearnLocationUp(figura mic)
+        {
+            return Doskaa.doskaa[mic.rectangle.X / 30, (mic.rectangle.Y / 30)+1].flag;
+        }
+        public byte LearnLocationDown(figura mic)
+        {
+            return Doskaa.doskaa[mic.rectangle.X / 30, (mic.rectangle.Y / 30)-1].flag;
         }
     }
     static class Doskaa

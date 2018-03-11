@@ -20,12 +20,25 @@ namespace WindowsFormsApp2
         public Form1()
         {
             InitializeComponent();
+            /////////////////
            // pictureBox1.Paint += PictureBox1_Paint;
             button1.Click += Button1_Click;
             button2.Click += Button2_Click;
+            button3.Click += Button3_Click;
+            button4.Click += Button4_Click;
             ////////////////
             //Зададим сколько будет микробов
             Doskaa.microbe = new microbe[10];
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            byte buff = qq.LearnLocationRight(Doskaa.microbe[0]);
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            byte buff = qq.LearnLocationLeft(Doskaa.microbe[0]);
         }
 
         private void Button2_Click(object sender, EventArgs e)
