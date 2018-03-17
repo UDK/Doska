@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -56,9 +56,12 @@ namespace WindowsFormsApp2
                 graf.FillEllipse(Doskaa.microbe[i].pen.Brush, Doskaa.microbe[i].rectangle);
                 for(int j=0;j<Doskaa.microbe[i].command.Length;j++)
                 {
+                    int ВремявМиллисекундахДляРанома = DateTime.Now.Millisecond; 
                     //Рандом опять не пашет, надо что-то с этим сделать
-                    Random random = new Random(j);
+                    Random random = new Random(ВремявМиллисекундахДляРанома+j);
                     Doskaa.microbe[i].command[j] = random.Next(1, 4);
+                    //Чтобы получить рандомные значение, не лучший способ.
+                    Thread.Sleep(1);
                 }
             }
             //while(Doskaa.microbe.Length > 2)
