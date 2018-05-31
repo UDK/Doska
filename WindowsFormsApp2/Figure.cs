@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using System.Threading;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ namespace WindowsFormsApp2
         //Флаг присутствия 0-никого,1-микроб
         public Byte flag = 0;
         public Size size;
-
+        public bool Nado_izmenit = false;
     }
     class microbe : figura
     {
@@ -38,9 +39,17 @@ namespace WindowsFormsApp2
         //Жизни
         public int Life = 15;
         //Здесб комманды, когда запихиваю команды,то надо расширить массив
-        public int[] command = new int[4];
+        public byte[] command = new byte[64];
         //Счётчик на массив сверху,когда ещё что-нибудь кроме движения сделаю, то надо, чтобы при достижение какого-нибудь числа(Например 7), он делал уже движение или другоую важную вещь,которая закончит его ход
         private int Schet = 0;
+        public int X
+        {
+            get { return (this.rectangle.X-2) / 30 ; }
+        }
+        public int Y
+        {
+            get { return (this.rectangle.Y-2) / 30; }
+        }
         public int schet
         {
             get
@@ -57,9 +66,10 @@ namespace WindowsFormsApp2
     class Работа_Доска
     {
 
-        public microbe Рандомить_микроба(quad[,] doska, int rndS)
+        public microbe Рандомить_микроба(int rndS)
         {
-            Random rnd = new Random(rndS);
+            
+            Random rnd = new Random();
             microbe microb = new microbe();
             //Делаем Цвет
             Pen pen = new Pen(Brushes.Red);
@@ -67,8 +77,9 @@ namespace WindowsFormsApp2
             pen.Width = 1.8f;
             microb.pen = pen;
             //Где находится объект
-            int rand_x = rnd.Next(0, doska.GetLength(0));
-            int rand_y = rnd.Next(0, doska.GetLength(1));
+            int rand_x = rnd.Next(0, Doskaa.doskaa.GetLength(0));
+            int rand_y = rnd.Next(0, Doskaa.doskaa.GetLength(1));
+            Proverka_na_X_Y(ref rand_x,ref rand_y);
             //30- это чтобы он попадал в клетку
             microb.rectangle.X = rand_x * 30+2;
             microb.rectangle.Y = rand_y * 30+2;
@@ -76,10 +87,23 @@ namespace WindowsFormsApp2
             microb.size.Width = 25;
             microb.size.Height = 25;
             microb.rectangle.Size = microb.size;
-            doska[rand_x, rand_y].flag = 1;
+            Doskaa.doskaa[rand_x, rand_y].flag = 1;
             return microb;
         }
-
+        private void Proverka_na_X_Y(ref int X,ref int Y)
+        {
+            while(true)
+            { 
+                if(Doskaa.doskaa[X,Y].flag!=0)
+                {
+                    Random random = new Random();
+                    X = random.Next(0, Doskaa.doskaa.GetLength(0));
+                    Y = random.Next(0, Doskaa.doskaa.GetLength(1));
+                    continue;
+                }
+                break;
+            }
+        }
         public quad[,] СделатьДоску(int X, int Y)
         {
             quad[,] Quad = new quad[X, Y];
@@ -113,10 +137,10 @@ namespace WindowsFormsApp2
         //1
         public void MoveRight(microbe mic)
         {
-            byte buff = Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag;
-            Doskaa.doskaa[mic.rectangle.X/30, mic.rectangle.Y/30].flag = 0;
+            byte buff = Doskaa.doskaa[mic.X, mic.Y].flag;
+            Doskaa.doskaa[mic.X, mic.Y].flag = 0;
             mic.rectangle.X += 30;
-            Doskaa.doskaa[mic.rectangle.X / 30, mic.rectangle.Y / 30].flag = buff;
+            Doskaa.doskaa[mic.X , mic.Y].flag = buff;
             mic.Life--;
             mic.schet++;
         }
@@ -171,12 +195,18 @@ namespace WindowsFormsApp2
         {
             return Doskaa.doskaa[mic.rectangle.X / 30, (mic.rectangle.Y / 30)-1].flag;
         }
+        private void Proverka_Na_Vihod(int i)
+        {
+
+        }
         ////////////////////////////
         //Выполнение действий микроба
         public void action()
         {
             for (int i = 0; i < Doskaa.microbe.Length; i++)
             {
+                //Показывает, надо ли делать прорисовку в этом месте(да,надо)
+                Doskaa.doskaa[Doskaa.microbe[i].X, Doskaa.microbe[i].Y].Nado_izmenit = true;
                 if (Doskaa.microbe[i].command[Doskaa.microbe[i].schet] == 1)
                     MoveRight(Doskaa.microbe[i]);
                 else if (Doskaa.microbe[i].command[Doskaa.microbe[i].schet] == 2)
@@ -185,6 +215,8 @@ namespace WindowsFormsApp2
                     MoveUp(Doskaa.microbe[i]);
                 else if (Doskaa.microbe[i].command[Doskaa.microbe[i].schet] == 4)
                     MoveDown(Doskaa.microbe[i]);
+                //Показывает, надо ли делать прорисовку в этом месте(да,надо)
+                Doskaa.doskaa[Doskaa.microbe[i].X, Doskaa.microbe[i].Y].Nado_izmenit = true;
             }
         }
     }
@@ -193,6 +225,27 @@ namespace WindowsFormsApp2
         //Нужна статическая доска,чтобы постоянно к ней обращаться
         static public quad[,] doskaa;
         static public microbe[] microbe;
+        static public Graphics graf;
+        public static Работа_Доска qq = new Работа_Доска();
+        public static void RandMicrobe(int kol_Microbe)
+        {
+            Doskaa.microbe = new microbe[kol_Microbe];
+            for (int i = 0; i < kol_Microbe; i++)
+            {
+                //Здесь мы создаём микробов
+                Doskaa.microbe[i] = qq.Рандомить_микроба(i);
+                graf.FillEllipse(Doskaa.microbe[i].pen.Brush, Doskaa.microbe[i].rectangle);
+                for (int j = 0; j < Doskaa.microbe[i].command.Length; j++)
+                {
+                    int ВремявМиллисекундахДляРанома = DateTime.Now.Millisecond;
+                    //Рандом опять не пашет, надо что-то с этим сделать
+                    Random random = new Random(ВремявМиллисекундахДляРанома);
+                    Doskaa.microbe[i].command[j] = (byte)random.Next(1, 4);
+                    //Чтобы получить рандомные значение, не лучший способ.
+                    Thread.Sleep(1);
+                }
+            }
+        }
     }
     
     
